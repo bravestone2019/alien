@@ -43,8 +43,9 @@ class Menu:
         """Handle menu events (button clicks)."""
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.settings.play_rect.collidepoint(event.pos):
-                self.game.start_new_game()  # Reset game state (ensure this method exists in your game class)
-                self.game.state = "game"  # Switch to game screen
+                self.game.previous_state = "menu"
+                self.game.start_new_game()  # Start a new game
+                self.game.state = "game" # Switch to game screen
             elif self.settings.help_rect.collidepoint(event.pos):  # Help button clicked
                 self.game.previous_state = "menu"
                 self.game.state = "tutorial"  # Switch to tutorial

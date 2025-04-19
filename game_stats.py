@@ -1,16 +1,17 @@
 import pygame
 
 class GameStats:
-    def __init__(self, settings):
-        self.settings = settings
-        self.high_score = 0  
+    def __init__(self, game):
+        """Initialize statistics."""
+        self.game = game
+        self.settings = game.settings
         self.reset_stats()
         self.heart_full = pygame.image.load("images/Full.png")
         self.heart_empty = pygame.image.load("images/empty.png")
 
     def reset_stats(self):
         self.lives = 3
-        self.score = 0
+        self.score = self.settings.score
 
     def show_stats(self, screen):
         screen = pygame.display.get_surface()

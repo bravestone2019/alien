@@ -90,7 +90,9 @@ class AlienInvasion:
             self.over.handle_events(event)
 
     def _handle_mouse_click(self, event):
-        if self.settings.sound_rect.collidepoint(event.pos):
+        if self.settings.play_rect.collidepoint(event.pos):
+            self.start_new_game()  
+        elif self.settings.sound_rect.collidepoint(event.pos):
             self._toggle_sound()
         elif self.settings.help_rect.collidepoint(event.pos):
             if self.state != "tutorial":
@@ -98,8 +100,6 @@ class AlienInvasion:
                 self.state = "tutorial"
             elif hasattr(self, 'previous_state'):
                 self.state = self.previous_state
-        elif self.settings.play_rect.collidepoint(event.pos):
-            self.state = "game"
         else:
             self._handle_state_events(event)
 
@@ -115,7 +115,7 @@ class AlienInvasion:
     def _redraw_screen(self):
         """Redraw the screen and update UI elements."""
         score = self.game_stats.score
-        high_score = self.game_stats.high_score
+        # high_score = self.game_stats.high_score
         if self.state == "menu":
             self.menu.draw_menu()
         elif self.state == "game":
@@ -123,7 +123,7 @@ class AlienInvasion:
         elif self.state == "tutorial":
             self.tutorial.draw_tutorial()
         elif self.state == "game_over":
-            self.over.draw(score, high_score)
+            self.over.draw()
 
     def _toggle_fullscreen(self):
         self.fullscreen = not self.fullscreen
@@ -135,13 +135,15 @@ class AlienInvasion:
 
     def start_new_game(self):
         self.game_stats.reset_stats()
-        # self.game = Game(self)
-        self._resize()  # if you have this method for adjusting window/UI
+        self.game = Game(self)
+        self._resize() 
         self.state = "game"
 
     def run_game(self):
         """Main game loop."""
-        while True:
+        running = True
+        while running:
+            # print(f"Current state: {self.state}") 
             self._check_events()
             self._redraw_screen()
             self.clock.tick(60)

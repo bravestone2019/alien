@@ -35,7 +35,7 @@ class Settings:
         self.sound_icon_off = pygame.transform.scale(pygame.image.load("images/mute.png"), self.icon_size )
         self.sound_rect = self.sound_icon_on.get_rect(topleft=(self.width - 180, self.height - 90))
 
-        self.sound_on = False  
+        self.sound_on = True  # Sound is on by default  
         pygame.mixer.music.load("images/music.mp3")  
 
         # help settings 
@@ -75,5 +75,5 @@ class Settings:
         self.game_paused = False
         self.aliens_paused = False  # 2 seconds pause for aliens
 
-
-
+        self.score = 0
+        self.high_score = 0  

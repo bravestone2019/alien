@@ -81,8 +81,6 @@ class Game:
             if collision:
                 self.game_stats.lives -= 1
                 if self.game_stats.lives <= 0:
-                    if self.game_stats.score > self.game_stats.high_score:
-                        self.game_stats.high_score = self.game_stats.score
                     self.game.state = "game_over"
                     return
                 self.ship_visible = False
@@ -224,19 +222,4 @@ class Game:
                 self.alien_bullets.add(bullet)
                 self.last_alien_shot_time = now
 
-    def restart_game(self):
-        self.game_stats.reset_stats()
-        self.game.state = "game"
-        self.aliens.empty()
-        self.bullets.empty()
-        self.alien_bullets.empty()
-        self.ship_hit_time = None
-        self.ship_visible = True
-        self.aliens_paused = False
-        self._create_fleet()
 
-    def reset_game_over_screen(self):
-        """Reset the game over screen and return to the main menu."""
-        self.game.state = "menu"
-        self.game_stats.reset_stats()
-        self.game_over_screen.reset()
