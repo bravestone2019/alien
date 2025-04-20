@@ -1,4 +1,4 @@
-
+import pygame
 class Ship:
     """ A  class to manage the ship. """
 
@@ -25,9 +25,8 @@ class Ship:
 
     def update(self):
         """ Update the ship's position based on the movement flag. """
-        # if self.moving_right:
-        if self.moving_right and self.rect.right < self.screen_rect.right:
-            # self.rect.x += 1
+        screen_rect = self.screen.get_rect()
+        if self.moving_right and self.rect.right < screen_rect.right:
             # Update the ship's x value, not the rect.
             self.x += self.settings.ship_speed 
         # if self.moving_left:
@@ -38,17 +37,29 @@ class Ship:
         # Update rect object from self.x.
         self.rect.x = self.x
 
-    # def center_ship(self):
-    #     """Center the ship on the screen."""
-    #     self.rect.midbottom = self.screen.get_rect().midbottom
-    #     self.x = float(self.rect.x)   
+    def center_ship(self):
+        """Re-center the ship after resize or restart"""
+        # self.rect.midbottom = (self.settings.width // 4, self.settings.height - 20)
+        
+        screen_rect = self.screen.get_rect()
+        self.rect.midbottom = screen_rect.midbottom
+        self.rect.y -= 20  # Give a little margin above the bottom
+
+        self.x = float(self.rect.x)
+
 
     def blitme(self):
         """ Draw the ship at its current location. """
         if self.visible:
             self.screen.blit(self.settings.ship, self.rect)
-        # Uncomment the following line if you want to control visibility with a flag
-        # self.image = self.settings.ship if self.visible else None
 
-        # if self.visible:
-        #     self.screen.blit(self.image, self.rect)
+    def move_with_mouse(self):
+        mouse_x = pygame.mouse.get_pos()[0]
+        self.rect.centerx = mouse_x
+
+        # Keep ship inside screen bounds
+        if self.rect.left < 0:
+            self.rect.left = 0
+        elif self.rect.right > self.settings.width:
+            self.rect.right = self.settings.width
+

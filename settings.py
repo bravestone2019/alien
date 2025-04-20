@@ -19,12 +19,11 @@ class Settings:
         self.background = pygame.image.load("images/background.jpg")
         self.caption = "Alien Invasion"
 
-        # Title settings
+        # Title setting
         self.title = pygame.image.load("images/Title.png")
         self.title_rect = self.title.get_rect(center=(self.width // 2, self.height // 2.5))
 
-        # self.play_rect = pygame.Rect(self.width // 2 - 50, self.height // 2, 100, 40)
-        # Play button settings
+        # Button setting
         self.play_rect = pygame.Rect(self.width // 2 - 75 , self.height // 2 + 150, 180, 60) # left top width height 
 
         # icon size 
@@ -36,7 +35,7 @@ class Settings:
         self.sound_rect = self.sound_icon_on.get_rect(topleft=(self.width - 180, self.height - 90))
 
         self.sound_on = True  # Sound is on by default  
-        pygame.mixer.music.load("images/music.mp3")  
+        pygame.mixer.music.load("images/audio.mp3")  
 
         # help settings 
         self.help_icon = pygame.transform.scale(pygame.image.load("images/help.png"), self.icon_size)
@@ -62,10 +61,10 @@ class Settings:
         self.green_alien_image = pygame.transform.scale(pygame.image.load("images/green.png"),  self.alien_size)
         self.red_alien_image =  pygame.transform.scale(pygame.image.load("images/red.png"),  self.alien_size)
         self.blue_alien_image =  pygame.transform.scale(pygame.image.load("images/blue.png"),  self.alien_size)
-        self.alien_speed = 1.2
-        self.fleet_drop_speed = 8
+        self.alien_speed = 2.0
+        self.fleet_drop_speed = 30
         self.fleet_direction = 1
-        self.alien_shoot_interval = 2500  # milliseconds
+        self.alien_shoot_interval = 2000  # milliseconds
         self.alien_bullet_speed = 2.0
 
         # Game settings

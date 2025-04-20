@@ -102,6 +102,7 @@ class Game:
     
 
         if self.ship_visible:
+            self.ship.move_with_mouse()
             self.ship.update()
             self.ship.blitme()
 
@@ -175,6 +176,18 @@ class Game:
         self._check_fleet_edges()
         self.aliens.update()
 
+        # Check if any alien has reached the bottom
+        for alien in self.aliens:
+            if alien.rect.bottom >= self.settings.height:
+                self.game.state = "game_over" # move to over screen
+                return
+
+         # Check for collision between ship and any alien
+        if self.ship_visible:
+            if pygame.sprite.spritecollideany(self.ship, self.aliens):
+                self.game.state = "game_over" # move to over screen
+                return
+
         # If all aliens are destroyed and no timer set, start the respawn timer
         if not self.aliens and self.fleet_respawn_time is None:
             self.bullets.empty()          # Clear all ship bullets
@@ -192,18 +205,27 @@ class Game:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
 
+
     def _create_fleet(self):
+        """Create a fleet of aliens and center it on the screen."""
+
+        # Clear existing aliens before creating new ones
+        self.aliens.empty()
+
+        # Create a single alien to get its size
         alien = Alien(self)
-        alien_width = alien.rect.width
-        available_space_x = self.settings.width - (2 * alien_width)
-        num_aliens_x = available_space_x // (2 * alien_width)
-        num_rows = 6
+        alien_width, alien_height = alien.rect.size
+
         row_colors = ["red", "red", "green", "green", "blue", "blue"]
 
-        for row in range(num_rows):
-            color = row_colors[row]
-            for alien_num in range(num_aliens_x):
-                self._create_alien(alien_num, row, color)
+        # Calculate how many aliens fit in a row
+        available_space_x = self.settings.width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        # Create the full fleet of aliens
+        for row_number, color in enumerate(row_colors):
+            for alien_number in range(number_aliens_x):
+                self._create_alien(alien_number, row_number, color)
 
     def _create_alien(self, alien_num, row, color):
         alien = Alien(self, alien_type=color)
@@ -221,5 +243,3 @@ class Game:
                 bullet = AlienBullet(self, alien, self.ship)
                 self.alien_bullets.add(bullet)
                 self.last_alien_shot_time = now
-
-

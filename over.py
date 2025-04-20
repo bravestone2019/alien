@@ -3,7 +3,7 @@ class GameOverScreen:
     def __init__(self, game):
         self.game = game
         self.screen = game.screen
-        self.settings = game.settings
+        self.settings = game.settings 
         self.button_font = pygame.font.Font(None, 32)
 
         self.large_font = pygame.font.Font(None, 110)

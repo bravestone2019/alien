@@ -17,7 +17,7 @@ class GameStats:
         screen = pygame.display.get_surface()
         # Draw "Lives" text with larger font and aligned with hearts
         large_font = pygame.font.Font(None, 52)  # Larger font size
-        lives_text = large_font.render("Lives:", True, (255, 255, 255))
+        lives_text = large_font.render("Lives:", True, (170, 170, 255))
         screen.blit(lives_text, (10, self.heart_full.get_height() // 2))
 
         # Draw lives

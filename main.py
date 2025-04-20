@@ -42,8 +42,13 @@ class AlienInvasion:
             except pygame.error:
                 print("Error initializing sound system.")
 
-
     def _resize(self):
+        self.settings.width, self.settings.height = self.screen.get_size()
+
+        self.settings.old_width = self.settings.width
+        self.settings.old_height = self.settings.height
+
+
         self.settings.background = pygame.transform.scale(
             self.settings.background, (self.settings.width, self.settings.height)
         )
@@ -53,9 +58,18 @@ class AlienInvasion:
         self.settings.title_rect.center = (self.settings.width // 2, self.settings.height // 2.5)
         self.settings.play_rect.center = (self.screen.get_width() // 2, self.screen.get_height() // 2 + 165)
 
-        if hasattr(self.game, 'ship'):
-            self.game.ship.rect.midbottom = (self.settings.width // 4, self.settings.height - 20)
+        if hasattr(self, 'game') and hasattr(self.game, 'ship'):
+            self.game.ship.screen = self.screen
+            self.game.ship.center_ship()
 
+        if self.state == "game":
+            width_ratio = self.settings.width / self.settings.old_width
+            height_ratio = self.settings.height / self.settings.old_height
+
+            for alien in self.game.aliens:
+                alien.rect.x = int(alien.rect.x * width_ratio)
+                alien.rect.y = int(alien.rect.y * height_ratio)
+                alien.x = float(alien.rect.x)
     def _check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -114,7 +128,7 @@ class AlienInvasion:
 
     def _redraw_screen(self):
         """Redraw the screen and update UI elements."""
-        score = self.game_stats.score
+        # score = self.game_stats.score
         # high_score = self.game_stats.high_score
         if self.state == "menu":
             self.menu.draw_menu()
@@ -141,9 +155,7 @@ class AlienInvasion:
 
     def run_game(self):
         """Main game loop."""
-        running = True
-        while running:
-            # print(f"Current state: {self.state}") 
+        while True:
             self._check_events()
             self._redraw_screen()
             self.clock.tick(60)
