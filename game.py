@@ -30,9 +30,7 @@ class Game:
         self.fleet_respawn_time = None
         self.respawn_delay = 1000  # 1 second in milliseconds
 
-
         self.game_over_screen = GameOverScreen(self)
-
 
         self._create_fleet()
 
@@ -100,7 +98,6 @@ class Game:
                 pygame.display.flip()
                 return  # Pause game during fleet respawn delay
     
-
         if self.ship_visible:
             self.ship.move_with_mouse()
             self.ship.update()
@@ -204,7 +201,6 @@ class Game:
         for alien in self.aliens:
             alien.rect.y += self.settings.fleet_drop_speed
         self.settings.fleet_direction *= -1
-
 
     def _create_fleet(self):
         """Create a fleet of aliens and center it on the screen."""

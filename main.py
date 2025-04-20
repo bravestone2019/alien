@@ -128,8 +128,6 @@ class AlienInvasion:
 
     def _redraw_screen(self):
         """Redraw the screen and update UI elements."""
-        # score = self.game_stats.score
-        # high_score = self.game_stats.high_score
         if self.state == "menu":
             self.menu.draw_menu()
         elif self.state == "game":
@@ -160,7 +158,6 @@ class AlienInvasion:
             self._redraw_screen()
             self.clock.tick(60)
             pygame.display.flip()
-
 
 if __name__ == '__main__':
     ai = AlienInvasion()
